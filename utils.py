@@ -14,7 +14,7 @@ def E_field_procces(medidas_file, s2p_file, anten_factor, freq_range,transition_
 
     if freq_range == 'low':  ### usar antena FRANKONIA
         if anten_factor == 'Frankonia':
-            df_ant = pd.read_csv('antenas\Frankonia_ALX_4000.csv')
+            df_ant = pd.read_csv('Frankonia_ALX_4000.csv')
         elif anten_factor == 'Lindgren':
             st.error("Lindgren no sirve para mediciones a baja frecuencia")
         else:
@@ -29,7 +29,7 @@ def E_field_procces(medidas_file, s2p_file, anten_factor, freq_range,transition_
         if anten_factor == 'Frankonia':
             st.error("Frankonia no sirve para mediciones a alta frecuencia")
         elif anten_factor == 'Lindgren':
-            df_ant = pd.read_csv('antenas\Lindgren.csv')
+            df_ant = pd.read_csv('Lindgren.csv')
         else:
             df_ant = pd.read_csv(StringIO(medidas_file.read().decode('utf-8')))
         df_ant['freq'] = df_ant['freq']*1000
