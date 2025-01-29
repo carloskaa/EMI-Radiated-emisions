@@ -7,7 +7,142 @@ import pandas as pd
 
 st.set_page_config(page_title="Aplicativo de Procesamiento de Medidas de Emisión Radiada",layout="wide",)
 
-st.title("Procesamiento de Medidas de Emisión Radiada")
+st.title(" 🚀 APP - Procesamiento de Medidas de Emisión Radiada  🚀")
+# Agregar una sección de instrucciones en la página principal
+with st.expander("Instrucciones de uso"):
+    st.write("""
+    **Instrucciones de uso:**
+    1. Utilice el menú lateral para cargar los archivos necesarios.
+    2. Cargue los archivos de datos de medida (.csv) y los archivos Touchstone (.s2p) para bajas y altas frecuencias.
+    3. Seleccione el tipo de antena utilizada para las mediciones.
+    4. Ingrese los valores de inicio y fin de la norma, así como los valores de inicio y fin de la transición (ya hay valores de una norma por defecto).
+    5. Haga clic en 'Procesar datos' para procesar los archivos cargados.
+    6. Puede descargar la gráfica y los resultados en formato PNG y CSV.
+    7. Los resultados se mostrarán en la página principal.
+    """)
+
+with st.expander("Presentacion Proyecto"):
+    st.title("Aplicativo cálculo de emisiones radiadas 📡")
+    st.subheader("Grupo: Inducidos")
+    st.title("DESCRIPCIÓN GENERAL")
+    st.subheader("OBJETIVO")
+    st.markdown(" 📊 Desarrollar un aplicativo para procesar medidas de emisión radiada.")
+    st.subheader("DATOS")
+
+    objetivos = [
+        "📌 Datos de medida. ",
+        "📌 Factores de antena.",
+        "📌 Touchstone cables, atenuadores.",
+        "📌 Límites de emisión."
+    ]
+
+    # Mostrar la lista con Markdown
+    st.markdown("### 🚀 Datos de entrada:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+    
+    objetivos = [
+        "✅ Campo E en dBuV/m vs frecuencia. ",
+        "✅ Frecuencias por encima del límite, el valor de E a esa frecuencia en dBuV/m  y la diferencia con respecto al límite.",
+        "✅ Frecuencias a menos de 6dB del límite, el valor de E a esa frecuencia en dBuV/m  y la diferencia con respecto al límite",
+        "✅ Imagen PNG o SVG con los resultados."
+    ]
+
+    # Mostrar la lista con Markdown
+    st.markdown("### 📂 Datos de salida:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+    st.title("SITUACIÓN PROBLEMA")
+    ##subtitulo
+    st.markdown("En la siguiente imagen se presenta gráficamente las fuentes de datos de una medición de emisiones radiadas. ")
+    st.markdown("Teniendo como referencia la fuente de los datos, se desarrolla el siguiente tratamiento de los mismos.")
+    #image
+    st.image("Emi2.png", caption="Fuente de datos de una medición de emisiones radiadas")
+    
+    st.title("ESTRUCTURACIÓN DEL APLICATIVO")
+
+    objetivos = [
+        "✅ Se realiza la lectura de los datos de entrada utilizando la librería de panda para leer archivos csv, estos datos ya se encuentran en unidades de dBm por lo que se pueden operar directamente. ",
+    ]
+    st.markdown("### 📈 Datos de la medición:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+    
+    objetivos = [
+        "✅ Se realiza la lectura de los datos del cable los cuales están en formato .s2p por lo cual es necesario usar la librería “scikit-rf” de python para obtener los valores de impedancia de entrada (unidades en dB), necesarios para el cálculo del valor de campo eléctrico.",
+    ]
+    st.markdown("### 🚀 Datos del cable:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+    objetivos = [
+        "✅ Los datos la antena necesarios son el factor de antena (dB/m), los cuales son tomados del datasheet del fabricante. ",
+        "✅ Debido a que el factor de antena es una curva en formato de imagen, se procesa la imagen en un software externo (engauge digitizer), los datos extraídos son usados en el cálculo de campo eléctrico. "
+    ]
+    st.markdown("### 📜 Datos Normativos:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+    objetivos = [
+        "✅ Se genera el límite normativo a partir de la información suministrada por el usuario y se genera el muestreo pertinente a partir del muestreo de frecuencia de los datos de medición.,",
+    ]
+    st.markdown("### 🔊 Datos de la antena:")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+    objetivos = [
+        "✅ Los datos de medición se tomaron como referencia para delimitar la frecuencia de mediciones (Frecuencia máxima y frecuencia mínima a evaluar) con el fin de optimizar el proceso computacional.",
+        "✅ Se unifica el muestreo de frecuencias con un método numérico (interpolación lineal), usando como referencia la frecuencia más extensa en cantidad de datos.,"
+    ]
+    st.markdown("### 🔘 Ajuste de Datos")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+    
+    objetivos = [
+        "✅ A partir de los datos procesados se realiza el cálculo del campo eléctrico para cada una de las frecuencias muestreadas como:"
+    ]
+    st.markdown("### 📊 Calculo de campo electrico")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+    
+    st.image("Ecu2.png", caption="Fuente de datos de una medición de emisiones radiadas")
+    objetivos = [
+        "M = Medición de potencia en el receptor",
+        "C = Atenuación en el Cable",
+        "F = Factor de antena",
+
+    ]
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+    
+    objetivos = [
+        "✅ Se realiza la comparación entre la el cálculo de campo eléctrico y el valor normativo mostrando los valores que la superan con un a X y los valores cerca por 6 dB con X"
+    ]
+    st.markdown("### 📑 Comparacion normativa")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+    
+    objetivos = [
+        "[1]. MIL-STD-461G RE102-3: Radiated Emissions, Electric Field – Limits for Aircraft and Space System Applications.",
+        "[2]. Sesion 04-05 Repaso Normativa Unidades, Diapositivas de clase CEM, ,Universidad Nacional de Colombia, Nicolas Mora, 2024. ",
+        "[3] pandas.pydata.org, 'pandas: Python Data Analysis Library,' Available: https://pandas.pydata.org/. [Accessed: Jan. 28, 2025].",
+        "[4] numpy.org, 'NumPy: The fundamental package for scientific computing with Python,' Available: https://numpy.org/. [Accessed: Jan. 28, 2025].",
+        "[5] A. Kozak, 'scikit-rf: An object-oriented approach to RF/Microwave engineering,' Available: https://scikit-rf.readthedocs.io/. [Accessed: Jan. 28, 2025].",
+        "[6] streamlit.io, 'Streamlit: The fastest way to build and share data apps,' Available: https://streamlit.io/. [Accessed: Jan. 28, 2025].",
+        "[7] J. D. Hunter, Matplotlib: A 2D graphics environment, _Computing in Science & Engineering_, vol. 9, no. 3, pp. 90-95, May-June 2007. [Online]. Available: https://matplotlib.org/. [Accessed: Jan. 28, 2025].",
+
+
+
+    ]
+    st.title("REFERENCIAS")
+    for obj in objetivos:
+        st.markdown(f"- {obj}")
+
+
+
+
 
 # Sidebar para cargar los datos
 st.sidebar.header("Carga de datos")
